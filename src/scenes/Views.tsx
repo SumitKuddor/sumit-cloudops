@@ -5,6 +5,7 @@ import { profile, certs, skills, logs } from '../data/profile'
 import { missions } from '../data/journey'
 import { deployments } from '../data/experience'
 import { labs } from '../data/projects'
+import { levels, levelLabels } from '../data/skillLevels'
 export const resumeUrl = import.meta.env.BASE_URL + 'resume.pdf'
 const H = ({ t, s }: { t: string; s?: string }) => <div className="mb-4"><h2 className="font-mono text-g text-lg">// {t}</h2>{s && <p className="text-slate-400 text-sm">{s}</p>}</div>
 function Pipe({ steps }: { steps: { l: string; d: string }[] }) {
@@ -42,8 +43,8 @@ export const Automation = () => <div><H t="AUTOMATION ENGINE" s="Common shape of
   { l: 'GENERATE', d: 'Word and Excel reports; the local version includes graphical insights.' },
   { l: 'STORE', d: 'Serverless version stores outputs in Amazon S3 at an estimated ~$0.22 per month.' }]} /></div>
 export function Skills() {
-  return <div><H t="SKILL MAP" s="Grouped as on the resume. DevOps is marked basic there." /><div className="grid md:grid-cols-3 gap-4">{Object.entries(skills).map(([k, v]) => <div key={k} className="panel"><div className="font-mono text-g mb-2">{k}</div>
-    <div className="flex flex-wrap gap-2">{v.map(x => <span key={x} className="font-mono text-xs border border-c/30 text-c rounded px-2 py-1">{x}</span>)}</div></div>)}</div>
+  return <div><H t="SKILL MAP" s="Levels reflect how each skill appears on the resume: listed, basic, working, or used in a role." /><div className="grid md:grid-cols-3 gap-4">{Object.entries(skills).map(([k, v]) => <div key={k} className="panel"><div className="font-mono text-g mb-2">{k}</div>
+    <ul className="space-y-1">{v.map(x => { const lv = levels[x] ?? 1; return <li key={x} className="flex items-center justify-between gap-2 font-mono text-xs"><span>{x}</span><span className="flex items-center gap-1 shrink-0" title={levelLabels[lv]} aria-label={`${x}: ${levelLabels[lv]}`}>{[1, 2, 3, 4].map(n => <i key={n} className={'w-2 h-2 rounded-full ' + (n <= lv ? 'bg-g' : 'bg-slate-700')} />)}<span className="text-slate-400 w-20 text-right">{levelLabels[lv]}</span></span></li> })}</ul></div>)}</div>
     <div className="panel mt-4 font-mono text-xs"><div className="text-w">DEVOPS ROADMAP</div>CURRENT: Docker · Git · CI/CD concepts · Shell scripting (basic)<br />NEXT: DevOps engineering</div></div>
 }
 export const Certs = () => <div><H t="CREDENTIAL VAULT" s="Validation links are configurable in src/data/profile.ts." /><div className="grid md:grid-cols-2 gap-4">{certs.map(c => <div key={c.name} className="panel border-g/50 font-mono text-sm"><div className="text-g">✓ VERIFIED CREDENTIAL <span className="text-slate-400 text-xs">(as listed on resume)</span></div>

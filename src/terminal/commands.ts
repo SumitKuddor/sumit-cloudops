@@ -1,7 +1,7 @@
 import { profile, skills, education, certs } from '../data/profile'
-export type View = 'overview'|'aws'|'journey'|'experience'|'labs'|'automation'|'skills'|'certs'|'resume'|'contact'
+export type View = 'overview'|'aws'|'journey'|'experience'|'labs'|'automation'|'skills'|'certs'|'resume'|'contact'|'feedback'
 export type Result = { out: string[]; view?: View; fx?: 'matrix'|'clear' }
-export const names = ['help','whoami','profile','about','journey','experience','projects','skills','aws','linux','automation','certifications','education','contact','resume','neofetch','status','ls','pwd','clear','matrix','coffee','sudo about']
+export const names = ['help','whoami','profile','about','journey','experience','projects','skills','aws','linux','automation','certifications','education','contact','feedback','resume','neofetch','status','ls','pwd','clear','matrix','coffee','sudo about']
 const who = ['SUMIT KUDDOR','AWS CLOUD ENGINEER','','FOCUS:','  Cloud Infrastructure','  AWS','  Linux','  Automation','  Toward DevOps']
 export function run(raw: string): Result {
   const c = raw.trim().toLowerCase()
@@ -21,6 +21,7 @@ export function run(raw: string): Result {
     case 'certifications': return { out: certs.map(x => `${x.date.padEnd(14)} ${x.name}`), view: 'certs' }
     case 'education': return { out: education.map(e => `${e.years}  ${e.name}, ${e.where}, ${e.score}`) }
     case 'contact': return { out: [profile.email, profile.github, profile.linkedin], view: 'contact' }
+    case 'feedback': return { out: ['Opening feedback form...'], view: 'feedback' }
     case 'resume': return { out: ['Opening DOCUMENT // SUMIT_KUDDOR_RESUME'], view: 'resume' }
     case 'ls': return { out: ['overview/  journey/  experience/  projects/  skills/  aws/  automation/  certs/  resume.pdf'] }
     case 'pwd': return { out: ['/home/sumit/cloudops'] }
