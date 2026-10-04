@@ -1,0 +1,14 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+body{background:#05070A;color:#cfe0ea;margin:0;overflow:hidden}
+.panel{background:rgba(10,15,20,.85);border:1px solid rgba(0,217,255,.2);border-radius:8px;padding:14px;box-shadow:0 0 24px rgba(0,217,255,.05)}
+.grid-bg{background-image:linear-gradient(rgba(0,217,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,217,255,.06) 1px,transparent 1px);background-size:36px 36px;background-position:var(--mx,0) var(--my,0)}
+.scan:after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);z-index:60}
+.node{font:12px ui-monospace,monospace;border:1px solid rgba(0,217,255,.35);background:#0A0F14;color:#00D9FF;border-radius:6px;padding:7px 14px;min-width:170px;cursor:pointer;transition:.2s}
+.node:hover,.node.sel{border-color:#00FF9C;color:#00FF9C;box-shadow:0 0 14px rgba(0,255,156,.35)}
+.flow{width:2px;height:26px;background:rgba(0,217,255,.25);position:relative}
+.flow:after{content:"";position:absolute;left:-2px;width:6px;height:6px;border-radius:50%;background:#00FF9C;box-shadow:0 0 8px #00FF9C;animation:fl 1.5s linear infinite}
+@keyframes fl{from{top:-4px}to{top:24px}}
+@keyframes rain{from{transform:translateY(-100%)}to{transform:translateY(100vh)}}
+@keyframes pulse2{50%{opacity:.4}}.pulse{animation:pulse2 2s infinite}
+:focus-visible{outline:2px solid #FFB000;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
