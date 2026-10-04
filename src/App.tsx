@@ -5,13 +5,11 @@ import Boot from './components/Boot'
 import Terminal from './components/Terminal'
 import { Overview, Aws, Journey, Experience, Labs, Automation, Skills, Certs, Resume, Contact } from './scenes/Views'
 import Feedback from './scenes/Feedback'
-import { trackVisit } from './lib/api'
 import type { View, Result } from './terminal/commands'
 const nav: [View, string, typeof Cloud][] = [['overview','OVERVIEW',LayoutDashboard],['aws','AWS MAP',Cloud],['journey','JOURNEY',Map],['experience','EXPERIENCE',Briefcase],['labs','LABS',FlaskConical],['automation','AUTOMATION',Workflow],['skills','SKILLS',Cpu],['certs','CERTS',Award],['resume','RESUME',FileText],['feedback','FEEDBACK',MessageSquare],['contact','CONTACT',Mail]]
 const scenes: Record<View, ReactNode> = { overview: <Overview />, aws: <Aws />, journey: <Journey />, experience: <Experience />, labs: <Labs />, automation: <Automation />, skills: <Skills />, certs: <Certs />, resume: <Resume />, contact: <Contact />, feedback: <Feedback /> }
 export default function App() {
   const [booted, setBooted] = useState(false); const [view, setView] = useState<View>('overview'); const [menu, setMenu] = useState(false); const [matrix, setMatrix] = useState(false)
-  useEffect(() => { trackVisit() }, [])
   const onResult = useCallback((r: Result) => { if (r.view) setView(r.view); if (r.fx === 'matrix') { setMatrix(true); setTimeout(() => setMatrix(false), 6000) } }, [])
   const Rail = ({ cls }: { cls: string }) => <nav aria-label="Main" className={cls}>{nav.map(([k, l, I]) => <button key={k} onClick={() => { setView(k); setMenu(false) }} aria-current={view === k} className={'flex items-center gap-2 px-3 py-2 rounded font-mono text-xs text-left ' + (view === k ? 'bg-g/10 text-g border-l-2 border-g' : 'text-slate-400 hover:text-c')}><I className="w-4 h-4" />{l}</button>)}</nav>
   return (

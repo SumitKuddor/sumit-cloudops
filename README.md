@@ -22,11 +22,7 @@ Everything factual lives in `src/data/` (`profile.ts`, `experience.ts`, `project
 - **GitHub Pages**: `base` is `./`, so the build works under `/repo-name/`. Upload the contents of `dist/` to the repo root (or serve via a Pages workflow) and select the branch in Settings → Pages.
 - **Nginx / VPS / EC2**: copy `dist/*` to `/usr/share/nginx/html` and use `nginx.conf`.
 
-## Visit counter, ratings and feedback (optional backend)
-The site works without it. To enable the visit counter and the Feedback view:
-    cd backend && sam build && sam deploy --guided     # needs AWS CLI + SAM CLI
-Copy the `ApiUrl` output. For local dev create `.env` with `VITE_API_URL=<ApiUrl>`. For GitHub Pages add a repo variable `VITE_API_URL` (Settings → Secrets and variables → Actions → Variables) and in `.github/workflows/deploy.yml` change the build step to:
-          - run: npm run build
-            env:
-              VITE_API_URL: ${{ vars.VITE_API_URL }}
-Only anonymous visit counts, star ratings and typed feedback are stored (DynamoDB). No IPs or identities. Read submissions in the DynamoDB console (items starting `FB#`). For names/countries of visitors you cannot get them automatically; use Cloudflare Web Analytics or LinkedIn's "who viewed your profile".
+## Feedback and visit counts (free, no backend)
+- **Feedback**: create a free Formspree form (formspree.io), copy its endpoint URL, and set it as `VITE_FORM_URL` (a GitHub Actions *variable*, or `.env` locally). Submissions are emailed to you; your inbox is the private page.
+- **Visit counts**: create a free GoatCounter site (goatcounter.com) and set `VITE_GOATCOUNTER` to its code. The dashboard shows counts only, not names.
+- Check each service's free-plan limits before relying on them. Nothing here uses AWS or any paid service.

@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Star } from 'lucide-react'
 import { profile } from '../data/profile'
-import { apiEnabled, getStats, sendFeedback, type Stats } from '../lib/api'
+import { apiEnabled, sendFeedback } from '../lib/api'
 const feels = ['Impressive', 'Clear', 'Creative', 'Confusing', 'Too heavy']
 export default function Feedback() {
   const [rating, setRating] = useState(0); const [feel, setFeel] = useState(''); const [improve, setImprove] = useState('')
   const [name, setName] = useState(''); const [hp, setHp] = useState(''); const [ok, setOk] = useState(false)
-  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle'); const [stats, setStats] = useState<Stats | null>(null)
-  useEffect(() => { getStats().then(setStats) }, [state])
+  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
   const submit = async () => {
     setState('sending')
     try { await sendFeedback({ rating, feel, improve, name, website: hp }); setState('done') } catch { setState('error') }
@@ -16,8 +15,7 @@ export default function Feedback() {
     <div className="max-w-xl">
       <h2 className="font-mono text-g text-lg mb-1">// FEEDBACK</h2>
       <p className="text-slate-400 text-sm mb-4">How does this profile feel, and what should I improve? Everything except the rating is optional.</p>
-      {stats && <div className="panel mb-4 font-mono text-xs flex gap-6"><span>VISITS <b className="text-c text-base">{stats.visits}</b></span><span>RATING <b className="text-w text-base">{stats.ratingCount ? stats.ratingAvg.toFixed(1) + ' / 5' : '—'}</b> ({stats.ratingCount})</span></div>}
-      {!apiEnabled && <div className="panel mb-4 text-w text-sm">Feedback backend not configured yet (set VITE_API_URL at build time). See README.</div>}
+      {!apiEnabled && <div className="panel mb-4 text-w text-sm">Feedback form not configured yet (set VITE_FORM_URL at build time). See README.</div>}
       {state === 'done' ? <div className="panel font-mono space-y-3"><div className="text-g">✓ Thanks, feedback received.</div><p className="text-slate-300 text-sm font-sans">If you liked what you saw, let's connect.</p><a className="node inline-block" href={profile.linkedin} target="_blank" rel="noopener noreferrer">CONNECT ON LINKEDIN</a></div> : (
         <div className="panel space-y-4">
           <div role="radiogroup" aria-label="Rating" className="flex gap-1">{[1, 2, 3, 4, 5].map(n => <button key={n} role="radio" aria-checked={rating === n} aria-label={`${n} star${n > 1 ? 's' : ''}`} onClick={() => setRating(n)}><Star className={'w-7 h-7 ' + (n <= rating ? 'text-w fill-w' : 'text-slate-500')} /></button>)}</div>
